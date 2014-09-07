@@ -1,6 +1,8 @@
 import socket
 import sys
 import os
+from tkinter import *
+from tkinter import ttk
 
 #---Command Line Arguments-------#
 filename=sys.argv[1]
@@ -14,7 +16,6 @@ buffer=int(sys.argv[3])
 #host=
 #buffer=
 #-------------------------------#
-
 dim=os.path.getsize(filename)
 outgoing=open(filename,'rb')
 sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)

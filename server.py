@@ -7,7 +7,7 @@ HST=''
 PRT=9011
 server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 print('Server created')
-server.bind((HST,PRT))
+server.bind(('',PRT))
 print('Server bind complete')
 server.listen(10)
 print('Server listening for clients')
