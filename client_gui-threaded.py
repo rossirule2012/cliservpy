@@ -18,10 +18,10 @@ def upload():
         print(os.path.getsize(filename))
         splitted=filename.split('/')
         name=splitted[-1]
-        connthread=connectsend(port,host,filename)
+        connthread=Connectsend(port,host,filename)
         connthread.start()
         
-class connectsend(threading.Thread):
+class Connectsend(threading.Thread):
 
 	def __init__(self,port,host,filename):
 		threading.Thread.__init__(self)
@@ -50,6 +50,7 @@ class connectsend(threading.Thread):
 		  sock.sendall(data)
 		  perc=round((100*i*4096)/(dim),0)
 		  pb['value']=perc
+		  progress['text']=perc,'%'
 		 
 		  
 		  
@@ -57,6 +58,7 @@ class connectsend(threading.Thread):
 		outgoing.close()
 		sock.close()
 		pb['value']=0
+		progress['text']=0
 		messagebox.showinfo("Uploader","Completed")
         
         
@@ -78,8 +80,11 @@ port_val.grid(row=0,column=1)
 host_val.grid(row=1,column=1)
 
 pb=ttk.Progressbar(buttons,mode='determinate',maximum=100)
+progress=Label(buttons,text='o%')
+
 upload=Button(buttons,text='Upload',command=upload)
 upload.pack(side=LEFT)
+progress.pack(side=RIGHT)
 pb.pack(side=RIGHT)
 inputs.pack(side=TOP)
 buttons.pack(side=BOTTOM)
