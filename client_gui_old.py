@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
+from tkinter import messagebox
 import string
 import socket
 import sys
@@ -27,28 +28,33 @@ def connectsend(port,host,filename):
         name=splitted[-1]
         strf=name+'/'
 
-        for a in strf:     #sending filename one charater at time#
-                print(a)
-                sock.sendall(bytes(a,'UTF-8'))
+        for a in strf:  sock.sendall(bytes(a,'UTF-8'))
+               
 
         print('Sending file: '+filename)
         i=0
         while 1:
+          i+=1
           data=outgoing.read(4096)
           if not data: break
           sock.sendall(data)
-          perc=round(100*i*4096/dim,0)
+          perc=round((100*i*4096)/(dim),0)
           pb['value']=perc
-          i+=1
+          print(pb['value'])
+          
+          
 	
         outgoing.close()
         sock.close()
+        pb['value']=0
         messagebox.showinfo("Uploader","Completed")
         
         
 
 
 root=Tk()
+root.title('Uploader')
+root.geometry('400x200')
 inputs=Frame(root)
 buttons=Frame(root)
 
@@ -65,7 +71,6 @@ pb=ttk.Progressbar(buttons,mode='determinate',maximum=100)
 upload=Button(buttons,text='Upload',command=upload)
 upload.pack(side=LEFT)
 pb.pack(side=RIGHT)
-r
 inputs.pack(side=TOP)
 buttons.pack(side=BOTTOM)
 root.mainloop()

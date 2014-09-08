@@ -4,7 +4,7 @@ import os
 
 filename=''
 HST=''
-PRT=9011
+PRT=80
 server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 print('Server created')
 server.bind(('',PRT))
@@ -20,13 +20,16 @@ while 1:
 		ck=s.recv(1)
 		if ck.decode('UTF-8')=='/': break
 		filename+=ck.decode('UTF-8')
-	print('Receiving file: '+filename)
+	print('Receiving file: '+filename+' from',addr[0])
 	fil=open(filename,'wb')
+	i=0
 	while 1:
-			data=s.recv(1024)
-			if not data: break
-			fil.write(data)
-	print('File downloaded: '+filename+' ',os.path.getsize(filename)/1024,' kb')
+		data=s.recv(1024)
+		if not data: break
+		fil.write(data)
+		i+=1
+                        
+	print('File downloaded: '+filename+' ',round(os.path.getsize(filename)/1024,2),' kb')
 	fil.close()
 	filename=''
 
